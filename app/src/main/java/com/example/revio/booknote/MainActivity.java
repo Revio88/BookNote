@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mCurrentNotes = new ArrayList<String>();
     private ListView mList;
     private Button mAddButton;
+
+    private static final String TAG = "MyActivity";
 
 
 
@@ -120,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     private void handleActionNDEFDiscovered(Bundle bundle) {
         Tag tag = bundle.getParcelable(NfcAdapter.EXTRA_TAG);
         mCurrentTag = tag;
-        checkWritable(tag);
+        // checkWritable(tag);
         readNotes();
     }
 
@@ -150,8 +153,10 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] readRecords() {
         Ndef ndefTag = null;
+
         try {
             ndefTag = Ndef.get(mCurrentTag);
+            Log.d(TAG, "connect() method return error sometimes");
             ndefTag.connect();
             NdefRecord[] records = ndefTag.getNdefMessage().getRecords();
 
